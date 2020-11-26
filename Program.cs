@@ -29,47 +29,69 @@ namespace Program
                 }
             }
             Console.Write("      ");
+            
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
 
-            Console.Write("Введите размерность матрицы:");
-            int size = Convert.ToInt32(Console.ReadLine());
-            int[,] M = new int[size, size];
-            int[] DIST = new int[size];
+            Console.Write("Введите размерность матрицы:");  // 1 2  не взвешенный направленный
+            int size = Convert.ToInt32(Console.ReadLine()); // 1 1  не взвешенный не направленный
+            int[,] M = new int[size, size];                 // 2 1  взвешенный не направленный
+            int[] DIST = new int[size];                     // 2 2  взвешенный  направленный
 
 
             Random random = new Random();
-            Console.WriteLine();
-            Console.WriteLine("Сгененрированная матрица:\t");
 
-            /*for (int i = 1; i < size; i++)
+            if (args.Length == 0)
             {
-                for (int j = 0; j < i; j++)
-                {
-                    M[i, j] = random.Next(2);     // не взвешенный не направленный
-                    M[j, i] = M[i, j];
-                }
-            }*/
+                System.Console.WriteLine("Please enter a numeric argument.");
+                return 1;
+            }
 
-            /*for (int i = 1; i < size; i++)
+            int vzv = int.Parse(args[0]);
+            int napr = int.Parse(args[1]);
+            
+            if (vzv == 2)
             {
-                for (int j = 0; j < i; j++)
+                for (int i = 0; i < size; i++)
                 {
-                    M[i, j] = random.Next(10);     // взвешенный не направленный
-                    M[j, i] = M[i, j];
-                }
-            }*/
-
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    M[i, j] = random.Next(10);     // взвешенный  направленный
-                    M[i, i] = 0;
+                    for (int j = 0; j < size; j++)
+                    {
+                        M[i, j] = random.Next(10);
+                        M[i, i] = 0;
+                    }
                 }
             }
+
+            else {
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        M[i, j] = random.Next(2);
+                        M[i, i] = 0;
+                    }
+                }
+            }
+
+            if (napr == 1)
+            {
+                for (int i = 1; i < size; i++)
+                {
+                    for (int j = 0; j < i; j++)
+                    {     
+                        M[j, i] = M[i, j];
+                      
+                    }
+                }
+                
+            }
+
+                Console.WriteLine();
+            Console.WriteLine("Сгененрированная матрица:\t");
+
+           
 
             for (int i = 0; i < size; i++)
             {
@@ -91,7 +113,6 @@ namespace Program
 
                 BFSD(i, M, DIST, size);
 
-
                 
                 Console.Write("Расстояния от вершины  "+i+":  ");
 
@@ -101,6 +122,8 @@ namespace Program
                 }
                 Console.WriteLine();
             }
+
+            return 0;
         }
     }
 }
